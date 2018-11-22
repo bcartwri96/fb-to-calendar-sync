@@ -13,8 +13,12 @@ import os
 from datetime import datetime as dt
 from datetime import timedelta as td
 import dateutil.parser as dp
+import pickle
 
 # globals
+global graph
+global in_cal
+
 graph = None
 in_cal = []
 
@@ -31,8 +35,16 @@ def events():
     return all_e
 
 def main():
+    global in_cal
     # check auth
     # auth = auth()
+
+    # get the list of it
+    try:
+        with open("added.json", 'rb+') as infile:
+            in_cal = pickle.load(infile)
+    except FileNotFoundError:
+        in_cal = []
 
     graph = gr.GraphAPI(access_token=at)
 
@@ -106,14 +118,22 @@ def main():
                     ],
                 },
             }
-            print(add)
             event = service.events().insert(calendarId='q6g7u29qdbeej0furdoq8s7gj8@group.calendar.google.com', body=add).execute()
             print ('Event created: %s' % (event.get('htmlLink')))
-            if event.get('htmlLink') != '':
-                # event was created, now we need to add it to the in_cal
-                in_cal.append(eid)
+            print('Event name: '+ ename)
+            in_cal.append(eid)
 
-            # reset.
-            estart = ''
-            eend = ''
+        # reset.
+        estart = ''
+        eend = ''
+
+        print(in_cal)
+
+def cleanup():
+    global in_cal
+    print("using"+str(in_cal))
+    with open("added.json", 'wb') as outfile:
+        pickle.dump(in_cal, outfile)
+
 main()
+cleanup()
