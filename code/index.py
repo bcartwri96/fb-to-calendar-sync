@@ -52,8 +52,8 @@ def main():
     store = Storage(credential_path)
     credentials = store.get()
     if not credentials or credentials.invalid:
-        auth = OAuth2WebServerFlow(client_id='241170527866-fao8m3nto0hl6o5g56ig7r4410infked.apps.googleusercontent.com',
-                            client_secret="fblU5ZmNDBFkV-KJjWzNSrGh",
+        auth = OAuth2WebServerFlow(client_id='241170527866-qgmnebcebqbg3m0b615p1scva0b8fs6e.apps.googleusercontent.com',
+                            client_secret="mQGzkJsN62GSgl5fqg1ylO80",
                             scope="https://www.googleapis.com/auth/calendar",
                             redirect_uri="http://localhost/")
         creds = tools.run_flow(auth, store)
