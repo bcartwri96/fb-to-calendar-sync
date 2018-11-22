@@ -10,6 +10,8 @@ name = "pypi"
 facebook-sdk = {git = "https://github.com/mobolic/facebook-sdk.git"}
 google-api-python-client = "*"
 "oauth2client" = "*"
+python-dateutil = "*"
+"httplib2" = "*"
 
 
 [dev-packages]
