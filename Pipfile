@@ -1,0 +1,21 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+facebook-sdk = {git = "https://github.com/mobolic/facebook-sdk.git"}
+google-api-python-client = "*"
+"oauth2client" = "*"
+
+
+[dev-packages]
+
+
+
+[requires]
+
+python_version = "3.6"
