@@ -19,11 +19,6 @@ graph = None
 in_cal = []
 
 # store access token for FB
-at = "EAAFzFSvJ2zMBAGkYbByDTfsloCic2DzoxzC\
-bEi6XQvN6PKxwpbzjIaBP2TAlb3ijkG49rUTYjBZCsFSnaaPzCdm2rSC8y57vZA2VFiK3Y\
-JkkRoDpx3S0NmDFIVF3j8QwEPP2NZCE5NJdl1ZAW5PtNFlMBweBKf7HlKy7tBDZAII5b2rk\
-VGJWsr8uOBapZAmI0ZD"
-
 at = "EAAFzFSvJ2zMBAFcmesZCsB3DXp3muSJEvsiLoBMGxDpZBzmupHgBdjkXVnN9Ja\
 XEacbLRReiZCIbSZCSXpHtIn6WsW1DoZCu3bUWF9qFgAAJTcTZBxtyJebgOcd7m3OJhguNs\
 EZAZAsH6WHvEEmxXQhcNB6opIZAeVIYZD"
@@ -50,7 +45,7 @@ def main():
                                    'fb-calendar.json')
 
     store = Storage(credential_path)
-    credentials = store.get()
+    creds = store.get()
     if not credentials or credentials.invalid:
         auth = OAuth2WebServerFlow(client_id='241170527866-fao8m3nto0hl6o5g56ig7r4410infked.apps.googleusercontent.com',
                             client_secret="fblU5ZmNDBFkV-KJjWzNSrGh",
@@ -92,7 +87,7 @@ def main():
                 estart=''
                 eend=''
 
-        if not (eid in installed) and rsvp == "attending":
+        if not (eid in in_cal) and rsvp == "attending":
             # we want to add it into the calendar
             add = {
                 'summary': ename,
