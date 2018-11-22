@@ -46,7 +46,7 @@ def main():
 
     store = Storage(credential_path)
     creds = store.get()
-    if not credentials or credentials.invalid:
+    if not creds or creds.invalid:
         auth = OAuth2WebServerFlow(client_id='241170527866-qgmnebcebqbg3m0b615p1scva0b8fs6e.apps.googleusercontent.com',
                             client_secret="mQGzkJsN62GSgl5fqg1ylO80",
                             scope="https://www.googleapis.com/auth/calendar",
@@ -55,7 +55,7 @@ def main():
 
 
     # now we can use the creds and send our access token along for the ride!
-    http = credentials.authorize(httplib2.Http())
+    http = creds.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
 
     all_e = graph.get_object(id="me", fields="events{id, name, timezone, start_time, end_time, event_times, rsvp_status}")
