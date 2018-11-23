@@ -22,6 +22,9 @@ global in_cal
 graph = None
 in_cal = []
 
+# calendar id
+cal_id = "672j3lukabp5f4e9uhqa1i8eu0@group.calendar.google.com"
+
 # store access token for FB
 at = "EAAFzFSvJ2zMBAFcmesZCsB3DXp3muSJEvsiLoBMGxDpZBzmupHgBdjkXVnN9Ja\
 XEacbLRReiZCIbSZCSXpHtIn6WsW1DoZCu3bUWF9qFgAAJTcTZBxtyJebgOcd7m3OJhguNs\
@@ -118,20 +121,17 @@ def main():
                     ],
                 },
             }
-            event = service.events().insert(calendarId='q6g7u29qdbeej0furdoq8s7gj8@group.calendar.google.com', body=add).execute()
+            event = service.events().insert(calendarId=cal_id, body=add).execute()
             print ('Event created: %s' % (event.get('htmlLink')))
-            print('Event name: '+ ename)
             in_cal.append(eid)
 
         # reset.
         estart = ''
         eend = ''
 
-        print(in_cal)
 
 def cleanup():
     global in_cal
-    print("using"+str(in_cal))
     with open("added.json", 'wb') as outfile:
         pickle.dump(in_cal, outfile)
 
