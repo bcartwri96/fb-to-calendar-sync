@@ -26,9 +26,17 @@ in_cal = []
 # calendar id
 cal_id = "672j3lukabp5f4e9uhqa1i8eu0@group.calendar.google.com"
 
+# get sensitive data
+with open('code/client_secret', 'rb') as cs:
+    f_client_secret = cs.readlines(0)
+    print(f_client_secret)
+
+with open('code/user_token', 'rb') as ut:
+    at = ut.readlines(0)
+    print(at)
+
 # get the access token
 f_client_id = "320764471845088"
-f_client_secret = "d28072a6040160b4f1c2d9f5bc689de0"
 f_url = "http://localhost/"
 f_creds = "client_credentials"
 http_req = r.get('https://graph.facebook.com/oauth/access_token?client_id='+f_client_id+"&client_secret="+f_client_secret+"&redirect_uri="+f_url+"&grant_type="+f_creds+"")
@@ -40,10 +48,6 @@ app_token = http_req.json()['access_token']
 # it expires, you need to replace it with another one and *ensure you extend
 # it!*
 
-# store access token for FB
-at = "EAAFzFSvJ2zMBAFcmesZCsB3DXp3muSJEvsiLoBMGxDpZBzmupHgBdjkXVnN9Ja\
-XEacbLRReiZCIbSZCSXpHtIn6WsW1DoZCu3bUWF9qFgAAJTcTZBxtyJebgOcd7m3OJhguNs\
-EZAZAsH6WHvEEmxXQhcNB6opIZAeVIYZD"
 # TOKEN EXPIRES IN 3 MONTHS FROM NOVEMBER 22, 2018
 # Site: https://developers.facebook.com/tools/debug/accesstoken/
 
