@@ -1,7 +1,5 @@
 [[source]]
 
-
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
@@ -14,12 +12,17 @@ google-api-python-client = "*"
 "oauth2client" = "*"
 python-dateutil = "*"
 "httplib2" = "*"
+requests = "*"
 
 
 [dev-packages]
 
+
+
 [scripts]
+
 sync = "python3 /home/ec2-user/fb-to-calendar-sync/code/index.py --noauth_local_webserver"
+
 
 [requires]
 

@@ -14,6 +14,7 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 import dateutil.parser as dp
 import pickle
+import requests as r
 
 # globals
 global graph
@@ -25,24 +26,31 @@ in_cal = []
 # calendar id
 cal_id = "672j3lukabp5f4e9uhqa1i8eu0@group.calendar.google.com"
 
+# get the access token
+f_client_id = "320764471845088"
+f_client_secret = "d28072a6040160b4f1c2d9f5bc689de0"
+f_url = "http://localhost/"
+f_creds = "client_credentials"
+http_req = r.get('https://graph.facebook.com/oauth/access_token?client_id='+f_client_id+"&client_secret="+f_client_secret+"&redirect_uri="+f_url+"&grant_type="+f_creds+"")
+app_token = http_req.json()['access_token']
+
+# AT THE TIME OF WRITING, Facebook does not allow developers to get user
+# access tokens programmatically in Python - need to use JS or something
+# and a frontend browser, so instead here is a hardcoded version and after
+# it expires, you need to replace it with another one and *ensure you extend
+# it!*
+
 # store access token for FB
 at = "EAAFzFSvJ2zMBAFcmesZCsB3DXp3muSJEvsiLoBMGxDpZBzmupHgBdjkXVnN9Ja\
 XEacbLRReiZCIbSZCSXpHtIn6WsW1DoZCu3bUWF9qFgAAJTcTZBxtyJebgOcd7m3OJhguNs\
 EZAZAsH6WHvEEmxXQhcNB6opIZAeVIYZD"
-
-def auth():
-    return None
-
-def events():
-    all_e = graph.get_object(id="me", fields="events")
-    return all_e
+# TOKEN EXPIRES IN 3 MONTHS FROM NOVEMBER 22, 2018
+# Site: https://developers.facebook.com/tools/debug/accesstoken/
 
 def main():
     global in_cal
-    # check auth
-    # auth = auth()
 
-    # get the list of it
+    # get the list of added events
     try:
         with open("added.json", 'rb+') as infile:
             in_cal = pickle.load(infile)
