@@ -26,19 +26,30 @@ in_cal = []
 # calendar id
 cal_id = "672j3lukabp5f4e9uhqa1i8eu0@group.calendar.google.com"
 
-# get sensitive data
-with open('code/client_secret', 'rb') as cs:
-    f_client_secret = cs.readlines(0)
-    print(f_client_secret)
+def get_file_line(path):
+    try:
+        with open(path, 'rb') as infile:
+            res = infile.readlines(0)
+    except FileNotFoundError:
+        print("File not found. Cannot read "+path)
+        exit()
+    return res[0].decode("utf-8").strip()
 
-with open('code/user_token', 'rb') as ut:
-    at = ut.readlines(0)
-    print(at)
+def put_file_line(path, data):
+    with open(path, 'wb') as outfile:
+        pickle.dump(data, outfile)
+    return 1
+
+
+# get sensitive data
+f_client_secret = get_file_line("code/client_secret")
+at = get_file_line("code/user_token")
 
 # get the access token
 f_client_id = "320764471845088"
 f_url = "http://localhost/"
 f_creds = "client_credentials"
+print(f_client_id, f_client_secret)
 http_req = r.get('https://graph.facebook.com/oauth/access_token?client_id='+f_client_id+"&client_secret="+f_client_secret+"&redirect_uri="+f_url+"&grant_type="+f_creds+"")
 app_token = http_req.json()['access_token']
 
@@ -53,7 +64,7 @@ app_token = http_req.json()['access_token']
 
 def main():
     global in_cal
-
+    print('Init')
     # get the list of added events
     try:
         with open("added.json", 'rb+') as infile:
@@ -74,8 +85,8 @@ def main():
     store = Storage(credential_path)
     creds = store.get()
     if not creds or creds.invalid:
-        auth = OAuth2WebServerFlow(client_id='241170527866-qgmnebcebqbg3m0b615p1scva0b8fs6e.apps.googleusercontent.com',
-                            client_secret="mQGzkJsN62GSgl5fqg1ylO80",
+        auth = OAuth2WebServerFlow(client_id=get_file_line("code/g_client_id"),
+                            client_secret=get_file_line("code/g_client_secret"),
                             scope="https://www.googleapis.com/auth/calendar",
                             redirect_uri="http://localhost/")
         creds = tools.run_flow(auth, store)
@@ -133,8 +144,8 @@ def main():
                     ],
                 },
             }
-            event = service.events().insert(calendarId=cal_id, body=add).execute()
-            print ('Event created: %s' % (event.get('htmlLink')))
+            # event = service.events().insert(calendarId=cal_id, body=add).execute()
+            # print ('Event created: %s' % (event.get('htmlLink')))
             in_cal.append(eid)
 
         # reset.
@@ -144,8 +155,7 @@ def main():
 
 def cleanup():
     global in_cal
-    with open("added.json", 'wb') as outfile:
-        pickle.dump(in_cal, outfile)
+    put_file_line("added.json", in_cal)
 
 main()
 cleanup()
